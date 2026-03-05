@@ -30,10 +30,6 @@ const App: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [isExporting, setIsExporting] = useState(false);
 
-  // Logo State
-  const [logoUrl, setLogoUrl] = useState<string | null>(null);
-  const [logoPosition, setLogoPosition] = useState<LogoPosition>("top-left");
-
   const fileInputRef = useRef<HTMLInputElement>(null);
   const slideRef = useRef<HTMLDivElement>(null);
 
@@ -120,10 +116,6 @@ const App: React.FC = () => {
         customCss={customCss}
         setCustomCss={setCustomCss}
         onUploadClick={() => fileInputRef.current?.click()}
-        logoUrl={logoUrl}
-        setLogoUrl={setLogoUrl}
-        logoPosition={logoPosition}
-        setLogoPosition={setLogoPosition}
       />
 
       <input
@@ -180,8 +172,6 @@ const App: React.FC = () => {
             slide={slides[activeSlideIndex]}
             isLoading={status !== AppStatus.IDLE && status !== AppStatus.ERROR}
             customCss={customCss}
-            logoUrl={logoUrl}
-            logoPosition={logoPosition}
           />
         </div>
 

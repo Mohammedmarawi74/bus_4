@@ -13,10 +13,6 @@ interface SidebarProps {
   customCss: string;
   setCustomCss: (css: string) => void;
   onUploadClick: () => void;
-  logoUrl: string | null;
-  setLogoUrl: (url: string | null) => void;
-  logoPosition: LogoPosition;
-  setLogoPosition: (pos: LogoPosition) => void;
 }
 
 type Tab = 'content' | 'design' | 'css';
@@ -32,42 +28,44 @@ const Sidebar: React.FC<SidebarProps> = ({
   updateSlide,
   customCss,
   setCustomCss,
-  onUploadClick,
-  logoUrl,
-  setLogoUrl,
-  logoPosition,
-  setLogoPosition
+  onUploadClick
 }) => {
   const [activeTab, setActiveTab] = useState<Tab>('content');
-  const logoInputRef = useRef<HTMLInputElement>(null);
 
-  const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setLogoUrl(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
+  const handleColorChange = (color: string) => {
+    updateSlide({ colorScheme: color });
+  };
+
+  const handleResetCss = () => {
+    setCustomCss(DEFAULT_CSS);
   };
 
   return (
     <aside className="sidebar-container">
       {/* Tabs Header */}
       <div className="tabs-header">
-        {(['content', 'design', 'css'] as Tab[]).map((tab) => (
-          <button
-            key={tab}
-            onClick={() => setActiveTab(tab)}
-            className={`tab-button ${activeTab === tab ? 'active' : 'inactive'}`}
-          >
-            {tab === 'content' ? 'المحتوى' : tab === 'design' ? 'التصميم' : 'CSS'}
-          </button>
-        ))}
+        <button 
+          className={`tab-button ${activeTab === 'content' ? 'active' : ''}`}
+          onClick={() => setActiveTab('content')}
+        >
+          المحتوى
+        </button>
+        <button 
+          className={`tab-button ${activeTab === 'design' ? 'active' : ''}`}
+          onClick={() => setActiveTab('design')}
+        >
+          التصميم
+        </button>
+        <button 
+          className={`tab-button ${activeTab === 'css' ? 'active' : ''}`}
+          onClick={() => setActiveTab('css')}
+        >
+          CSS مخصص
+        </button>
       </div>
 
       <div className={`tab-content-area ${activeTab === 'css' ? 'dark' : 'light'}`}>
+        {/* Tab content panels */}
         {activeTab === 'content' && (
           <div className="tab-panel animate">
             <div>
@@ -137,61 +135,6 @@ const Sidebar: React.FC<SidebarProps> = ({
               </button>
             </div>
 
-            {/* Logo Section */}
-            <div className="divider">
-              <div className="branding-header">
-                <h3 className="section-title">هوية العلامة التجارية</h3>
-                {logoUrl && (
-                  <button 
-                    onClick={() => setLogoUrl(null)}
-                    className="btn-remove-logo"
-                  >
-                    إزالة الشعار
-                  </button>
-                )}
-              </div>
-              
-              {!logoUrl ? (
-                <button 
-                  onClick={() => logoInputRef.current?.click()}
-                  className="logo-upload-btn"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                  رفع اللوقو (PNG/JPG)
-                </button>
-              ) : (
-                <div className="input-group">
-                  <div className="logo-preview-box">
-                    <img src={logoUrl} alt="Logo" className="logo-preview-img" />
-                  </div>
-                  
-                  <div>
-                    <label className="field-label">موضع الشعار</label>
-                    <div className="logo-position-grid">
-                      {(['top-left', 'top-right', 'bottom-left', 'bottom-right'] as LogoPosition[]).map(pos => (
-                         <button
-                           key={pos}
-                           onClick={() => setLogoPosition(pos)}
-                           className={`position-button ${logoPosition === pos ? 'active' : ''}`}
-                         >
-                           <div className={`position-indicator ${logoPosition === pos ? 'active' : 'inactive'}`} />
-                         </button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              )}
-              <input 
-                type="file" 
-                ref={logoInputRef}
-                className="hidden"
-                accept="image/*"
-                onChange={handleLogoUpload}
-              />
-            </div>
-
             <div className="divider">
               <h3 className="section-title">الألوان والسمة</h3>
               <label className="field-label">اختر لون الهوية</label>
@@ -199,7 +142,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                 {['#008080', '#2E8B57', '#20B2AA', '#004d4d', '#3CB371', '#D4AF37', '#800000', '#4B0082', '#000080', '#2F4F4F'].map(color => (
                   <button 
                     key={color}
-                    onClick={() => updateSlide({ colorScheme: color })}
+                    onClick={() => handleColorChange(color)}
                     className={`color-button ${activeSlide?.colorScheme === color ? 'active' : ''}`}
                     style={{ backgroundColor: color }}
                   />
