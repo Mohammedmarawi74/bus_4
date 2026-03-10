@@ -190,7 +190,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       <div className={`sidebar-footer ${activeTab === 'css' ? 'dark' : 'light'}`}>
         <div className={`footer-content ${activeTab === 'css' ? 'dark' : 'light'}`}>
           <span>الإصدار 2.0</span>
-          <span>مدعوم بـ Gemini AI</span>
+          <span>توليد تلقائي للمحتوى</span>
         </div>
       </div>
     </aside>

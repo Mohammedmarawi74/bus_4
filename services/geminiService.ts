@@ -1,52 +1,41 @@
 
-import { GoogleGenAI, Type } from "@google/genai";
 import { Slide } from "../types";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-
+// Mock implementation to avoid requiring an API key
 export async function generateMapImage(region: string): Promise<string> {
-  const prompt = `A professional 3D isometric map of ${region}, exactly in the style of the provided reference image: teal and green gradient colors, 3D depth, clean minimalist lines, shadows, soft professional lighting, on a pure white background. High resolution, high quality, corporate design.`;
-  
-  const response = await ai.models.generateContent({
-    model: 'gemini-2.5-flash-image',
-    contents: {
-      parts: [{ text: prompt }]
-    },
-    config: {
-      imageConfig: {
-        aspectRatio: "1:1"
-      }
-    }
-  });
-
-  for (const part of response.candidates?.[0]?.content?.parts || []) {
-    if (part.inlineData) {
-      return `data:image/png;base64,${part.inlineData.data}`;
-    }
-  }
-  
-  throw new Error("Failed to generate image");
+  console.log(`Mock: Generating map image for ${region}`);
+  // Return a high-quality placeholder image that looks like a map/isometric design
+  return `https://picsum.photos/800/800?random=${Math.floor(Math.random() * 1000)}`;
 }
 
 export async function generateCarouselContent(topic: string): Promise<Partial<Slide>[]> {
-  const response = await ai.models.generateContent({
-    model: 'gemini-3-flash-preview',
-    contents: `أنشئ محتوى كاروسيل احترافي باللغة العربية حول الموضوع: ${topic}. أريد 5 شرائح. لكل شريحة عنوان قصير وجذاب ووصف بسيط (حد أقصى 15 كلمة). رد بصيغة JSON فقط.`,
-    config: {
-      responseMimeType: "application/json",
-      responseSchema: {
-        type: Type.ARRAY,
-        items: {
-          type: Type.OBJECT,
-          properties: {
-            title: { type: Type.STRING },
-            description: { type: Type.STRING }
-          },
-          required: ["title", "description"]
-        }
-      }
+  console.log(`Mock: Generating carousel content for ${topic}`);
+  
+  // Simulate network delay
+  await new Promise(resolve => setTimeout(resolve, 1500));
+  
+  // Return mock content in Arabic as the project seems to be in Arabic
+  return [
+    {
+      title: `مقدمة حول ${topic}`,
+      description: `اكتشف أهم المفاهيم والأساسيات المتعلقة بـ ${topic} وكيفية الاستفادة منها.`
+    },
+    {
+      title: "الأهمية والأهداف",
+      description: "لماذا نركز على هذا المجال؟ وما هي النتائج المتوقعة عند التطبيق الصحيح؟"
+    },
+    {
+      title: "الخطوات العملية",
+      description: "دليل خطوة بخطوة للبدء في تنفيذ الاستراتيجيات وتحقيق النجاح المستهدف."
+    },
+    {
+      title: "أمثلة واقعية",
+      description: "استعراض لبعض الحالات الناجحة التي حققت نتائج مبهرة في هذا المجال."
+    },
+    {
+      title: "الخلاصة والنصيحة",
+      description: "نصائح ذهبية لضمان استمرارية النمو والتطور في تطبيق هذه المفاهيم."
     }
-  });
-
-  return JSON.parse(response.text);
+  ];
 }
+
