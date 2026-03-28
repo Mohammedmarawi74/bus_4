@@ -143,7 +143,7 @@ const SlidePreview = forwardRef<HTMLDivElement, SlidePreviewProps>(({ slide, isL
         >
           <div className="footer-accent" style={{ backgroundColor: slide.colorScheme }}></div>
           <span className="footer-brand-name">منصة المستثمر الاقتصادية</span>
-          <span className="footer-brand-url">al_investor.com</span>
+          <span className="footer-brand-url">al-investor.com</span>
         </div>
       </div>
     </div>

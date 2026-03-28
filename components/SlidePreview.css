@@ -200,15 +200,16 @@
   height: 100%;
   object-fit: contain;
   transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-  /* Professional Edge Blending */
-  mask-image: radial-gradient(circle, black 50%, rgba(0,0,0,0.8) 70%, transparent 100%);
-  -webkit-mask-image: radial-gradient(circle, black 50%, rgba(0,0,0,0.8) 70%, transparent 100%);
-  filter: drop-shadow(0 0 20px rgba(0,0,0,0.05));
+  /* Sharp edges as requested */
+  mask-image: none;
+  -webkit-mask-image: none;
+  filter: drop-shadow(0 20px 50px rgba(0,0,0,0.12));
+  border-radius: 0;
 }
 
 .slide-container:hover .map-image {
-  transform: scale(1.08) translateY(-5px);
-  filter: drop-shadow(0 15px 30px rgba(0,0,0,0.1));
+  transform: scale(1.06) translateY(-10px);
+  filter: drop-shadow(0 30px 60px rgba(0,0,0,0.18));
 }
 
 .glow-effect {
@@ -216,13 +217,13 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 120%;
-  height: 120%;
+  width: 130%;
+  height: 130%;
   border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.15;
+  filter: blur(100px);
+  opacity: 0.18;
   z-index: -1;
-  transition: all 1s ease;
+  transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .slide-footer {
