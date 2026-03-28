@@ -75,6 +75,7 @@ const SlidePreview = forwardRef<HTMLDivElement, SlidePreviewProps>(({ slide, isL
         {/* Topographic Background Pattern */}
         <div className="background-layer">
           <div className="topo-accent-glow" style={{ backgroundColor: slide.colorScheme }}></div>
+          <div className="side-accent-glow" style={{ backgroundColor: slide.colorScheme }}></div>
           <div className="topographic-pattern" style={{ color: slide.colorScheme }}>
             <svg viewBox="0 0 1000 1000" className="topo-svg" preserveAspectRatio="none">
               <path className="topo-line" d="M0,200 Q250,150 500,200 T1000,200" />
@@ -136,7 +137,11 @@ const SlidePreview = forwardRef<HTMLDivElement, SlidePreviewProps>(({ slide, isL
         </div>
 
         {/* Brand Footer */}
-        <div className="slide-footer">
+        <div 
+          className="slide-footer" 
+          style={{ borderTop: `2px solid ${slide.colorScheme}` }}
+        >
+          <div className="footer-accent" style={{ backgroundColor: slide.colorScheme }}></div>
           <span className="footer-brand-name">منصة المستثمر الاقتصادية</span>
           <span className="footer-brand-url">al_investor.com</span>
         </div>
